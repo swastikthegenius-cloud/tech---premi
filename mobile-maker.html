@@ -1,0 +1,244 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Mobile Phone Maker | Tech Premi Lab</title>
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <div class="page maker-page">
+    <header class="tool-header">
+      <a class="home-brand logo-brand" href="index.html"><img class="site-logo" src="logo.svg" alt="Tech Premi Tools logo"></a>
+      <a class="nav-back" href="index.html">home</a>
+    </header>
+
+    <main class="panel teal-panel maker-layout" id="maker-layout">
+      <section class="maker-controls" id="maker-controls">
+        <h2>Build your phone</h2>
+
+        <div class="preset-row">
+          <button class="preset-chip" type="button" data-preset="classic">Classic</button>
+          <button class="preset-chip" type="button" data-preset="gaming">Gaming</button>
+          <button class="preset-chip" type="button" data-preset="luxury">Luxury</button>
+          <button class="preset-chip" type="button" data-preset="camera">Camera Pro</button>
+        </div>
+
+        <div class="maker-grid maker-grid-advanced">
+          <label>Phone name
+            <input id="phone-name" type="text" value="Premi X One">
+          </label>
+          <label>Price
+            <input id="phone-price" type="number" value="699" min="50" step="1">
+          </label>
+          <label>Body color
+            <input id="phone-back-color" type="color" value="#4f7cff">
+          </label>
+          <label>Front color
+            <input id="phone-front-color" type="color" value="#1a1a1a">
+          </label>
+
+          <label>Frame style
+            <select id="phone-frame-style">
+              <option value="flat">Flat</option>
+              <option value="rounded" selected>Rounded</option>
+              <option value="metal">Metal</option>
+              <option value="chunky">Chunky</option>
+            </select>
+          </label>
+          <label>Phone size
+            <select id="phone-size">
+              <option value="small">Small</option>
+              <option value="medium" selected>Medium</option>
+              <option value="large">Large</option>
+              <option value="ultra">Ultra</option>
+            </select>
+          </label>
+          <label>Corner shape
+            <select id="phone-shape">
+              <option value="soft" selected>Soft</option>
+              <option value="round">Round</option>
+              <option value="boxy">Boxy</option>
+              <option value="pill">Pill</option>
+            </select>
+          </label>
+          <label>Back finish
+            <select id="phone-finish">
+              <option value="gloss" selected>Gloss</option>
+              <option value="matte">Matte</option>
+              <option value="frost">Frost</option>
+              <option value="carbon">Carbon</option>
+            </select>
+          </label>
+          <label>Wallpaper
+            <select id="phone-wallpaper">
+              <option value="sunrise">Sunrise</option>
+              <option value="space" selected>Space</option>
+              <option value="gaming">Gaming</option>
+              <option value="minimal">Minimal</option>
+            </select>
+          </label>
+          <label>Storage
+            <select id="phone-storage">
+              <option value="128">128 GB</option>
+              <option value="256" selected>256 GB</option>
+              <option value="512">512 GB</option>
+              <option value="1024">1 TB</option>
+            </select>
+          </label>
+          <label>RAM
+            <select id="phone-ram">
+              <option value="8">8 GB</option>
+              <option value="12" selected>12 GB</option>
+              <option value="16">16 GB</option>
+              <option value="24">24 GB</option>
+            </select>
+          </label>
+          <label>Battery
+            <select id="phone-battery">
+              <option value="4200">4200 mAh</option>
+              <option value="5000" selected>5000 mAh</option>
+              <option value="5500">5500 mAh</option>
+              <option value="6000">6000 mAh</option>
+            </select>
+          </label>
+          <label>Chip level
+            <select id="phone-chip">
+              <option value="daily">Daily</option>
+              <option value="fast" selected>Fast</option>
+              <option value="pro">Pro</option>
+              <option value="ultra">Ultra</option>
+            </select>
+          </label>
+          <label>Camera count
+            <input id="phone-camera-count" type="range" min="1" max="6" value="3">
+            <span class="range-value" id="camera-count-value">3</span>
+          </label>
+          <label>Camera size
+            <input id="phone-camera-size" type="range" min="18" max="42" value="26">
+            <span class="range-value" id="camera-size-value">26</span>
+          </label>
+          <label>Camera shape
+            <select id="phone-camera-shape">
+              <option value="circle" selected>Circle</option>
+              <option value="square">Square</option>
+              <option value="pill">Pill</option>
+              <option value="diamond">Diamond</option>
+            </select>
+          </label>
+          <label>Camera style
+            <select id="phone-camera-style">
+              <option value="classic" selected>Classic</option>
+              <option value="ring">Ring</option>
+              <option value="gloss">Gloss</option>
+              <option value="pro">Pro</option>
+            </select>
+          </label>
+          <label>Camera layout
+            <select id="phone-camera-layout">
+              <option value="grid" selected>Grid</option>
+              <option value="triangle">Triangle</option>
+              <option value="stack">Stack</option>
+              <option value="strip">Strip</option>
+            </select>
+          </label>
+          <label>Front camera
+            <select id="phone-front-camera">
+              <option value="punch" selected>Punch hole</option>
+              <option value="notch">Notch</option>
+              <option value="pill">Pill</option>
+              <option value="under">Under display</option>
+            </select>
+          </label>
+        </div>
+      </section>
+
+      <section class="maker-preview-wrap">
+        <div class="maker-meta advanced-meta"><button class="action-button maker-mobile-toggle" id="maker-mobile-toggle" type="button">Show controls</button>
+          <div>
+            <h3 id="preview-phone-name">Premi X One</h3>
+            <p id="preview-phone-price">$699</p>
+          </div>
+          <div class="maker-meta-actions">
+            <div class="rating-chip" id="preview-rating">Fast flagship</div>
+            <div class="view-mode-row" aria-label="Phone view mode">
+              <button class="view-mode-chip active" type="button" data-view="split">Split</button>
+              <button class="view-mode-chip" type="button" data-view="back">Back</button>
+              <button class="view-mode-chip" type="button" data-view="front">Front</button>
+            </div>
+          </div>
+        </div>
+
+        <div class="phone-stage advanced-stage">
+          <div class="phone-stage-copy">
+            <strong>Phone preview</strong>
+            <span>switch between split, back, and front views. drag any back camera lens and place it where you want.</span>
+          </div>
+          <div class="phone-viewer" id="phone-viewer">
+            <div class="phone-card split-view" id="phone-card">
+              <div class="phone-floor-glow"></div>
+              <div class="phone-floor-shadow"></div>
+              <div class="phone-edge edge-left"></div>
+              <div class="phone-edge edge-right"></div>
+              <div class="phone-edge edge-top"></div>
+              <div class="phone-edge edge-bottom"></div>
+              <div class="phone-button power-button"></div>
+              <div class="phone-button volume-button volume-up"></div>
+              <div class="phone-button volume-button volume-down"></div>
+              <div class="phone-port usb-port"></div>
+              <div class="speaker-grille speaker-left"></div>
+              <div class="speaker-grille speaker-right"></div>
+              <div class="phone-back" id="phone-back">
+                <div class="camera-bump-shadow"></div>
+                <div class="camera-surface" id="camera-surface"></div>
+                <div class="flash-dot"></div>
+                <div class="brand-stamp" aria-hidden="true"></div>
+              </div>
+              <div class="phone-front" id="phone-front">
+                <div class="top-speaker"></div>
+                <div class="screen-notch" id="screen-notch"></div>
+                <div class="screen-ui" id="screen-ui">
+                  <div class="status-bar">
+                    <span>9:41</span>
+                    <div class="status-icons"><i></i><i></i><i></i></div>
+                  </div>
+                  <div class="hero-widget">
+                    <span class="widget-label">Premi OS</span>
+                    <strong>Studio View</strong>
+                    <p>Camera, power, and style in one build.</p>
+                  </div>
+                  <div class="ui-row"></div>
+                  <div class="ui-row short"></div>
+                  <div class="widget-strip">
+                    <span class="mini-widget"></span>
+                    <span class="mini-widget"></span>
+                    <span class="mini-widget"></span>
+                  </div>
+                  <div class="app-grid">
+                    <span></span><span></span><span></span><span></span>
+                    <span></span><span></span><span></span><span></span>
+                  </div>
+                  <div class="dock-row">
+                    <span></span><span></span><span></span><span></span>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="spec-strip" id="spec-strip"></div>
+        <div class="maker-note">change the body, cameras, front, and specs until the phone feels right.</div>
+      </section>
+    </main>
+  </div>
+  <script src="script.js"></script>
+</body>
+</html>
+
+
+
+
+
+
+

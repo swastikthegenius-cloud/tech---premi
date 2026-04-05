@@ -1,0 +1,21 @@
+<svg width="420" height="160" viewBox="0 0 420 160" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <linearGradient id="tptGradient" x1="70" y1="20" x2="300" y2="90" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#32C5FF"/>
+      <stop offset="0.55" stop-color="#55E0FF"/>
+      <stop offset="1" stop-color="#8A5BFF"/>
+    </linearGradient>
+  </defs>
+
+  <rect width="420" height="160" rx="24" fill="#0F1220"/>
+
+  <path d="M68 36H166L156 52H108L102 66H82L88 52H58L68 36Z" fill="url(#tptGradient)"/>
+  <path d="M104 62H124L112 92H92L104 62Z" fill="url(#tptGradient)"/>
+
+  <path d="M166 36H248C266 36 276 47 272 61C268 75 255 84 236 84H206L196 98H176L186 84H164L174 68H226C237 68 245 65 247 58C249 52 244 50 234 50H156L166 36Z" fill="url(#tptGradient)"/>
+
+  <path d="M260 36H360L350 52H316L298 98H278L296 52H250L260 36Z" fill="url(#tptGradient)"/>
+
+  <text x="210" y="122" text-anchor="middle" fill="#FFFFFF" font-family="Trebuchet MS, Verdana, sans-serif" font-size="28" font-weight="700" letter-spacing="2">TECH PREMI TOOLS</text>
+  <text x="210" y="144" text-anchor="middle" fill="#B7C0D8" font-family="Trebuchet MS, Verdana, sans-serif" font-size="12" letter-spacing="3">PREMIUM DIGITAL TOOLS</text>
+</svg>

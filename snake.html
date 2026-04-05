@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Snake Game | Tech Premi Lab</title>
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <div class="page tool-page">
+    <header class="tool-header">
+      <a class="home-brand logo-brand" href="index.html"><img class="site-logo" src="logo.svg" alt="Tech Premi Tools logo"></a>
+      <a class="nav-back" href="index.html">home</a>
+    </header>
+
+    <main class="panel lime-panel">
+      <div class="tool-topline">
+        <p>use arrow keys, wasd, or touch controls to move</p>
+      </div>
+      <div class="score-board score-board-two">
+        <div><span>score</span><strong id="snake-score">0</strong></div>
+        <div><span>best</span><strong id="snake-best">0</strong></div>
+      </div>
+      <canvas class="game-canvas" id="snake-canvas" width="420" height="420"></canvas>
+      <div class="touch-pad snake-touch-pad" aria-label="Snake touch controls">
+        <button class="touch-control up" id="snake-up" type="button">Up</button>
+        <div class="touch-pad-row">
+          <button class="touch-control left" id="snake-left" type="button">Left</button>
+          <button class="touch-control down" id="snake-down" type="button">Down</button>
+          <button class="touch-control right" id="snake-right" type="button">Right</button>
+        </div>
+      </div>
+      <div class="game-note" id="snake-message">press start to play</div>
+      <button class="action-button" id="snake-start" type="button">start snake</button>
+    </main>
+  </div>
+  <script src="script.js"></script>
+</body>
+</html>

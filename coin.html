@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Coin Flipper | Tech Premi Lab</title>
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <div class="page tool-page">
+    <header class="tool-header">
+      <a class="home-brand logo-brand" href="index.html"><img class="site-logo" src="logo.svg" alt="Tech Premi Tools logo"></a>
+      <a class="nav-back" href="index.html">home</a>
+    </header>
+
+    <main class="panel gray-panel">
+      <div class="tool-topline">
+        <p>a usa dollar style coin with a real flip motion</p>
+      </div>
+      <div class="coin-stage">
+        <div class="coin-3d" id="coin-3d">
+          <div class="coin-face coin-front">
+            <div class="coin-rim"></div>
+            <div class="coin-inner coin-dollar-front">
+              <div class="coin-small-top">united states of america</div>
+              <div class="coin-liberty">liberty</div>
+              <div class="coin-profile"></div>
+              <div class="coin-year">$1</div>
+            </div>
+          </div>
+          <div class="coin-face coin-back">
+            <div class="coin-rim"></div>
+            <div class="coin-inner coin-dollar-back">
+              <div class="coin-small-top">e pluribus unum</div>
+              <div class="coin-eagle"></div>
+              <div class="coin-stars">? ? ? ? ?</div>
+              <div class="coin-year">one dollar</div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="result-line">result: <strong id="coin-result">heads</strong></div>
+      <button class="action-button" id="coin-flip" type="button">flip coin</button>
+    </main>
+  </div>
+  <script src="script.js"></script>
+</body>
+</html>
+

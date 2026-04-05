@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Dice Roller | Tech Premi Lab</title>
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <div class="page tool-page">
+    <header class="tool-header">
+      <a class="home-brand logo-brand" href="index.html"><img class="site-logo" src="logo.svg" alt="Tech Premi Tools logo"></a>
+      <a class="nav-back" href="index.html">home</a>
+    </header>
+
+    <main class="panel orange-panel">
+      <div class="tool-topline">
+        <p>change the range and roll a 3d dice</p>
+      </div>
+      <div class="double-inputs">
+        <div>
+          <label for="dice-min">From</label>
+          <input id="dice-min" type="number" value="1">
+        </div>
+        <div>
+          <label for="dice-max">To</label>
+          <input id="dice-max" type="number" value="6">
+        </div>
+      </div>
+      <div class="dice-stage">
+        <div class="dice-cube" id="dice-cube">
+          <div class="face front"><div class="pip-face" id="dice-face-front"></div></div>
+          <div class="face back"><div class="pip-face" id="dice-face-back"></div></div>
+          <div class="face right"><div class="pip-face" id="dice-face-right"></div></div>
+          <div class="face left"><div class="pip-face" id="dice-face-left"></div></div>
+          <div class="face top"><div class="pip-face" id="dice-face-top"></div></div>
+          <div class="face bottom"><div class="pip-face" id="dice-face-bottom"></div></div>
+        </div>
+      </div>
+      <div class="result-line">result: <strong id="dice-result">1</strong></div>
+      <button class="action-button" id="dice-roll" type="button">roll dice</button>
+    </main>
+  </div>
+  <script src="script.js"></script>
+</body>
+</html>
+

@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Dinosaur Game | Tech Premi Lab</title>
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <div class="page tool-page">
+    <header class="tool-header">
+      <a class="home-brand logo-brand" href="index.html"><img class="site-logo" src="logo.svg" alt="Tech Premi Tools logo"></a>
+      <a class="nav-back" href="index.html">home</a>
+    </header>
+
+    <main class="panel purple-panel">
+      <div class="tool-topline">
+        <p>press space, arrow up, or tap jump</p>
+      </div>
+      <div class="score-board score-board-two">
+        <div><span>score</span><strong id="dino-score">0</strong></div>
+        <div><span>best</span><strong id="dino-best">0</strong></div>
+      </div>
+      <canvas class="game-canvas dino-canvas" id="dino-canvas" width="700" height="260"></canvas>
+      <button class="action-button touch-jump" id="dino-jump" type="button">jump</button>
+      <div class="game-note" id="dino-message">press start to run</div>
+      <button class="action-button" id="dino-start" type="button">start dinosaur</button>
+    </main>
+  </div>
+  <script src="script.js"></script>
+</body>
+</html>
