@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Car Racing | Tech Premi Lab</title>
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <div class="page tool-page">
+    <header class="tool-header">
+      <a class="home-brand logo-brand" href="index.html"><img class="site-logo" src="logo.svg" alt="Tech Premi Tools logo"></a>
+      <a class="nav-back" href="index.html">home</a>
+    </header>
+
+    <main class="panel red-panel">
+      <div class="tool-topline">
+        <p>drive left or right to avoid traffic. go as far as you can.</p>
+      </div>
+      <div class="score-board score-board-two">
+        <div><span>distance</span><strong id="racing-distance">0</strong></div>
+        <div><span>best</span><strong id="racing-best">0</strong></div>
+      </div>
+      <canvas class="game-canvas racing-canvas" id="racing-canvas" width="320" height="480"></canvas>
+      <div class="mobile-controls racing-controls">
+        <button class="action-button touch-button" id="racing-left" type="button">◀ Left</button>
+        <button class="action-button touch-button" id="racing-right" type="button">Right ▶</button>
+      </div>
+      <div class="game-note" id="racing-message">tap start or use arrow keys to race</div>
+      <button class="action-button" id="racing-start" type="button">start racing</button>
+    </main>
+  </div>
+  <script src="script.js"></script>
+</body>
+</html>

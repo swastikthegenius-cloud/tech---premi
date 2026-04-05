@@ -2512,3 +2512,158 @@ function setupMarioPlatformer() {
 
 
 
+
+
+function setupCarRacing() {
+  const canvas = document.getElementById("racing-canvas");
+  if (!canvas) return;
+  const ctx = canvas.getContext("2d");
+  const distanceNode = document.getElementById("racing-distance");
+  const bestNode = document.getElementById("racing-best");
+  const messageNode = document.getElementById("racing-message");
+  const startButton = document.getElementById("racing-start");
+  const leftButton = document.getElementById("racing-left");
+  const rightButton = document.getElementById("racing-right");
+  const refreshLeaderboard = setupLeaderboard("car-racing", "Top Car Racing Scores", (entry) => entry.display || `${entry.score} meters`);
+  const bestStorageKey = "tech_premi_car_racing_best";
+  let best = Number(localStorage.getItem(bestStorageKey) || 0);
+  bestNode.textContent = String(best);
+  const state = {
+    running: false, frame: 0, animation: null, distance: 0, score: 0, speed: 0,
+    baseSpeed: 8, maxSpeed: 12, player: { x: 144, y: 380, width: 32, height: 48, vx: 0 },
+    lane: 1, lanes: [64, 144, 224], cars: [], roadOffset: 0, difficulty: 1
+  };
+  const carColors = ["#e74c3c", "#3498db", "#27ae60", "#f39c12", "#9b59b6"];
+  function resetGame() {
+    hideResultModal();
+    state.running = true; state.frame = 0; state.distance = 0; state.score = 0;
+    state.speed = 0; state.player.x = state.lanes[1]; state.player.y = 380;
+    state.player.vx = 0; state.lane = 1; state.cars = []; state.roadOffset = 0;
+    state.difficulty = 1; distanceNode.textContent = "0"; messageNode.textContent = "avoid the traffic"; draw();
+  }
+  function changeDir(direction) {
+    if (!state.running) return;
+    if (direction === "left" && state.lane > 0) {
+      state.lane -= 1; state.player.x = state.lanes[state.lane]; state.player.vx = -2;
+    }
+    if (direction === "right" && state.lane < 2) {
+      state.lane += 1; state.player.x = state.lanes[state.lane]; state.player.vx = 2;
+    }
+  }
+  function drawCar(x, y, width, height, color) {
+    ctx.fillStyle = color;
+    ctx.fillRect(x, y, width, height);
+    ctx.fillStyle = "rgba(0, 0, 0, 0.3)";
+    ctx.fillRect(x + 2, y + 8, width - 4, 15);
+    ctx.fillStyle = "#333";
+    ctx.fillRect(x + 4, y + 6, 6, 6);
+    ctx.fillRect(x + width - 10, y + 6, 6, 6);
+    ctx.fillRect(x + 4, y + height - 8, 6, 6);
+    ctx.fillRect(x + width - 10, y + height - 8, 6, 6);
+    ctx.fillStyle = "#fff";
+    ctx.fillRect(x + 6, y + 2, 6, 2);
+    ctx.fillRect(x + width - 12, y + 2, 6, 2);
+  }
+  function addCar() {
+    const targetLane = Math.floor(Math.random() * 3);
+    const color = carColors[Math.floor(Math.random() * carColors.length)];
+    state.cars.push({
+      x: state.lanes[targetLane], y: -60, width: 32, height: 48,
+      speed: 4 + Math.random() * 3 + state.difficulty * 1.5, color: color, lane: targetLane
+    });
+  }
+  function updateCars() {
+    state.cars = state.cars.filter((car) => { car.y += car.speed; return car.y < canvas.height + 60; });
+    const spawnRate = Math.max(30, 100 - state.difficulty * 15);
+    if (state.frame % spawnRate === 0) addCar();
+  }
+  function checkCollisions() {
+    const playerRect = { x: state.player.x, y: state.player.y, width: state.player.width, height: state.player.height };
+    for (const car of state.cars) {
+      const carRect = { x: car.x, y: car.y, width: car.width, height: car.height };
+      if (playerRect.x < carRect.x + carRect.width && playerRect.x + playerRect.width > carRect.x &&
+          playerRect.y < carRect.y + carRect.height && playerRect.y + playerRect.height > carRect.y) {
+        finishRun();
+        return true;
+      }
+    }
+    return false;
+  }
+  function updateDistance() {
+    state.speed = Math.min(state.maxSpeed, state.baseSpeed + state.difficulty * 0.8);
+    state.distance += state.speed * 0.34;
+    state.score = Math.floor(state.distance);
+    state.difficulty = 1 + Math.floor(state.score / 400);
+    state.roadOffset = (state.roadOffset + state.speed) % 40;
+    distanceNode.textContent = String(Math.floor(state.distance));
+  }
+  function draw() {
+    ctx.fillStyle = "#1a1a1a"; ctx.fillRect(0, 0, canvas.width, canvas.height);
+    const skyGrad = ctx.createLinearGradient(0, 0, 0, 120);
+    skyGrad.addColorStop(0, "#87ceeb"); skyGrad.addColorStop(1, "#e0f4ff");
+    ctx.fillStyle = skyGrad; ctx.fillRect(0, 0, canvas.width, 120);
+    ctx.fillStyle = "rgba(255, 200, 50, 0.8)";
+    ctx.beginPath(); ctx.arc(canvas.width - 60, 40, 35, 0, Math.PI * 2); ctx.fill();
+    ctx.fillStyle = "#d4a574";
+    for (let i = 0; i < canvas.height; i += 40) {
+      const offset = (state.roadOffset + i) % 40;
+      const roadY = i - offset + state.roadOffset;
+      ctx.fillRect(0, roadY, canvas.width, 20);
+    }
+    ctx.strokeStyle = "#ffff00"; ctx.lineWidth = 2; ctx.setLineDash([10, 10]);
+    ctx.beginPath(); ctx.moveTo(144, 0); ctx.lineTo(144, canvas.height); ctx.stroke();
+    ctx.beginPath(); ctx.moveTo(224, 0); ctx.lineTo(224, canvas.height); ctx.stroke();
+    ctx.setLineDash([]);
+    state.cars.forEach((car) => drawCar(car.x, car.y, car.width, car.height, car.color));
+    drawCar(state.player.x, state.player.y, state.player.width, state.player.height, "#34495e");
+    ctx.fillStyle = "rgba(255, 165, 0, 0.4)"; ctx.fillRect(0, 0, canvas.width, canvas.height);
+  }
+  function finishRun() {
+    state.running = false; cancelAnimationFrame(state.animation);
+    const finalScore = Math.floor(state.distance);
+    if (finalScore > best) {
+      best = finalScore;
+      localStorage.setItem(bestStorageKey, String(best));
+      bestNode.textContent = String(best);
+    }
+    messageNode.textContent = "crash! tap start to race again";
+    draw();
+    showResultModal({
+      title: "Car Racing Result",
+      value: `${finalScore} meters`,
+      detail: `Difficulty: ${Math.floor(state.difficulty)}x`,
+      onRetest: () => startButton.click(),
+      leaderboard: {
+        game: "car-racing",
+        score: finalScore,
+        display: `${finalScore} meters`,
+        detail: `Racing distance`,
+        refresh: refreshLeaderboard
+      }
+    });
+  }
+  function tick() {
+    if (!state.running) return;
+    state.frame += 1; state.player.x += state.player.vx; state.player.vx *= 0.88;
+    updateDistance(); updateCars();
+    const hitCar = checkCollisions();
+    if (hitCar) { cancelAnimationFrame(state.animation); return; }
+    draw();
+    state.animation = requestAnimationFrame(tick);
+  }
+  document.addEventListener("keydown", (event) => {
+    const key = event.key.toLowerCase();
+    if (key === "arrowleft" || key === "a") changeDir("left");
+    if (key === "arrowright" || key === "d") changeDir("right");
+  });
+  leftButton.addEventListener("click", () => changeDir("left"));
+  rightButton.addEventListener("click", () => changeDir("right"));
+  startButton.addEventListener("click", () => {
+    if (state.animation) cancelAnimationFrame(state.animation);
+    resetGame();
+    state.animation = requestAnimationFrame(tick);
+  });
+  draw();
+}
+
+ function setupCarRacing(){const canvas=document.getElementById("racing-canvas");if(!canvas)return;const ctx=canvas.getContext("2d");const distanceNode=document.getElementById("racing-distance");const bestNode=document.getElementById("racing-best");const messageNode=document.getElementById("racing-message");const startButton=document.getElementById("racing-start");const leftButton=document.getElementById("racing-left");const rightButton=document.getElementById("racing-right");const refreshLeaderboard=setupLeaderboard("car-racing","Top Car Racing Scores",(entry)=>entry.display||`${entry.score} meters`);const bestStorageKey="tech_premi_car_racing_best";let best=Number(localStorage.getItem(bestStorageKey)||0);bestNode.textContent=String(best);const state={running:false,frame:0,animation:null,distance:0,score:0,speed:0,baseSpeed:8,maxSpeed:12,player:{x:144,y:380,width:32,height:48,vx:0},lane:1,lanes:[64,144,224],cars:[],roadOffset:0,difficulty:1};const carColors=["#e74c3c","#3498db","#27ae60","#f39c12","#9b59b6"];function resetGame(){hideResultModal();state.running=true;state.frame=0;state.distance=0;state.score=0;state.speed=0;state.player.x=state.lanes[1];state.player.y=380;state.player.vx=0;state.lane=1;state.cars=[];state.roadOffset=0;state.difficulty=1;distanceNode.textContent="0";messageNode.textContent="avoid the traffic";draw()}function changeDir(direction){if(!state.running)return;if(direction==="left"&&state.lane>0){state.lane-=1;state.player.x=state.lanes[state.lane];state.player.vx=-2}if(direction==="right"&&state.lane<2){state.lane+=1;state.player.x=state.lanes[state.lane];state.player.vx=2}}function drawCar(x,y,width,height,color){ctx.fillStyle=color;ctx.fillRect(x,y,width,height);ctx.fillStyle="rgba(0, 0, 0, 0.3)";ctx.fillRect(x+2,y+8,width-4,15);ctx.fillStyle="#333";ctx.fillRect(x+4,y+6,6,6);ctx.fillRect(x+width-10,y+6,6,6);ctx.fillRect(x+4,y+height-8,6,6);ctx.fillRect(x+width-10,y+height-8,6,6);ctx.fillStyle="#fff";ctx.fillRect(x+6,y+2,6,2);ctx.fillRect(x+width-12,y+2,6,2)}function addCar(){const targetLane=Math.floor(Math.random()*3);const color=carColors[Math.floor(Math.random()*carColors.length)];state.cars.push({x:state.lanes[targetLane],y:-60,width:32,height:48,speed:4+Math.random()*3+state.difficulty*1.5,color:color,lane:targetLane})}function updateCars(){state.cars=state.cars.filter((car)=>{car.y+=car.speed;return car.y<canvas.height+60});const spawnRate=Math.max(30,100-state.difficulty*15);if(state.frame%spawnRate===0)addCar()}function checkCollisions(){const playerRect={x:state.player.x,y:state.player.y,width:state.player.width,height:state.player.height};for(const car of state.cars){const carRect={x:car.x,y:car.y,width:car.width,height:car.height};if(playerRect.x<carRect.x+carRect.width&&playerRect.x+playerRect.width>carRect.x&&playerRect.y<carRect.y+carRect.height&&playerRect.y+playerRect.height>carRect.y){finishRun();return true}}return false}function updateDistance(){state.speed=Math.min(state.maxSpeed,state.baseSpeed+state.difficulty*0.8);state.distance+=state.speed*0.34;state.score=Math.floor(state.distance);state.difficulty=1+Math.floor(state.score/400);state.roadOffset=(state.roadOffset+state.speed)%40;distanceNode.textContent=String(Math.floor(state.distance))}function draw(){ctx.fillStyle="#1a1a1a";ctx.fillRect(0,0,canvas.width,canvas.height);const skyGrad=ctx.createLinearGradient(0,0,0,120);skyGrad.addColorStop(0,"#87ceeb");skyGrad.addColorStop(1,"#e0f4ff");ctx.fillStyle=skyGrad;ctx.fillRect(0,0,canvas.width,120);ctx.fillStyle="rgba(255, 200, 50, 0.8)";ctx.beginPath();ctx.arc(canvas.width-60,40,35,0,Math.PI*2);ctx.fill();ctx.fillStyle="#d4a574";for(let i=0;i<canvas.height;i+=40){const offset=(state.roadOffset+i)%40;const roadY=i-offset+state.roadOffset;ctx.fillRect(0,roadY,canvas.width,20)}ctx.strokeStyle="#ffff00";ctx.lineWidth=2;ctx.setLineDash([10,10]);ctx.beginPath();ctx.moveTo(144,0);ctx.lineTo(144,canvas.height);ctx.stroke();ctx.beginPath();ctx.moveTo(224,0);ctx.lineTo(224,canvas.height);ctx.stroke();ctx.setLineDash([]);state.cars.forEach((car)=>drawCar(car.x,car.y,car.width,car.height,car.color));drawCar(state.player.x,state.player.y,state.player.width,state.player.height,"#34495e");ctx.fillStyle="rgba(255, 165, 0, 0.4)";ctx.fillRect(0,0,canvas.width,canvas.height)}function finishRun(){state.running=false;cancelAnimationFrame(state.animation);const finalScore=Math.floor(state.distance);if(finalScore>best){best=finalScore;localStorage.setItem(bestStorageKey,String(best));bestNode.textContent=String(best)}messageNode.textContent="crash! tap start to race again";draw();showResultModal({title:"Car Racing Result",value:`${finalScore} meters`,detail:`Difficulty: ${Math.floor(state.difficulty)}x`,onRetest:()=>startButton.click(),leaderboard:{game:"car-racing",score:finalScore,display:`${finalScore} meters`,detail:"Racing distance",refresh:refreshLeaderboard}})}function tick(){if(!state.running)return;state.frame+=1;state.player.x+=state.player.vx;state.player.vx*=0.88;updateDistance();updateCars();const hitCar=checkCollisions();if(hitCar){cancelAnimationFrame(state.animation);return}draw();state.animation=requestAnimationFrame(tick)}document.addEventListener("keydown",(event)=>{const key=event.key.toLowerCase();if(key==="arrowleft"||key==="a")changeDir("left");if(key==="arrowright"||key==="d")changeDir("right")});leftButton.addEventListener("click",()=>changeDir("left"));rightButton.addEventListener("click",()=>changeDir("right"));startButton.addEventListener("click",()=>{if(state.animation)cancelAnimationFrame(state.animation);resetGame();state.animation=requestAnimationFrame(tick)});draw()}
